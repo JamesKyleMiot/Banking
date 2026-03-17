@@ -56,7 +56,7 @@ public class Bank {
     }
     
     public void withdraw(double amount) {
-        if (amount > 0 && amount <= balance && !hasActiveLoan) {
+        if (amount > 0 && amount <= balance) {
             balance -= amount;
             System.out.printf("%.2f withdrawn successfully.%n", amount);
             System.out.printf("New Balance: %.2f%n", balance);
