@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.5.2 Chrome/142.0.7444.265 Electron/39.5.2 Safari/537.36" version="29.5.2">
   <diagram name="Page-1" id="4V0yxGuIc2LFpwwKS6Us">
-    <mxGraphModel dx="7760" dy="3000" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="5687" dy="1636" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -444,8 +444,133 @@
         <mxCell id="M4WP1nLHC-CvDfxdz0Wg-178" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Login Successful" vertex="1">
           <mxGeometry height="60" width="120" x="-454.99999999999955" y="1562" as="geometry" />
         </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-184" edge="1" parent="1" source="M4WP1nLHC-CvDfxdz0Wg-181" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="M4WP1nLHC-CvDfxdz0Wg-185" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-800" y="1592" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="M4WP1nLHC-CvDfxdz0Wg-181" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Bank Menu" vertex="1">
           <mxGeometry height="60" width="120" x="-710" y="1562" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-188" edge="1" parent="1" source="M4WP1nLHC-CvDfxdz0Wg-185" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="M4WP1nLHC-CvDfxdz0Wg-186">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-1712" y="1789" />
+              <mxPoint x="-2756" y="1789" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-206" edge="1" parent="1" source="M4WP1nLHC-CvDfxdz0Wg-185" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="M4WP1nLHC-CvDfxdz0Wg-205">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-1712" y="1789" />
+              <mxPoint x="-2401" y="1789" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-232" edge="1" parent="1" source="M4WP1nLHC-CvDfxdz0Wg-185" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="M4WP1nLHC-CvDfxdz0Wg-231">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-1712" y="1789" />
+              <mxPoint x="-2083" y="1789" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-185" parent="1" style="rhombus;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 23px;&quot;&gt;Choice&lt;/font&gt;" vertex="1">
+          <mxGeometry height="220" width="255" x="-1839.75" y="1482.51" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-190" edge="1" parent="1" source="M4WP1nLHC-CvDfxdz0Wg-186" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="M4WP1nLHC-CvDfxdz0Wg-189" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-186" parent="1" style="rounded=0;whiteSpace=wrap;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Check Balance" vertex="1">
+          <mxGeometry height="60" width="120" x="-2816" y="1913" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-192" edge="1" parent="1" source="M4WP1nLHC-CvDfxdz0Wg-189" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="M4WP1nLHC-CvDfxdz0Wg-195">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-2968" y="2083" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-189" parent="1" style="whiteSpace=wrap;html=1;rounded=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="QUERY TO DATABASE" vertex="1">
+          <mxGeometry height="60" width="120" x="-2816" y="2053" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-197" edge="1" parent="1" source="M4WP1nLHC-CvDfxdz0Wg-195" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="M4WP1nLHC-CvDfxdz0Wg-196">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-195" parent="1" style="rounded=0;whiteSpace=wrap;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Current Account Holder" vertex="1">
+          <mxGeometry height="60" width="120" x="-2816" y="2193" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-202" edge="1" parent="1" source="M4WP1nLHC-CvDfxdz0Wg-196" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="M4WP1nLHC-CvDfxdz0Wg-201" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-196" parent="1" style="shape=datastore;whiteSpace=wrap;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="" vertex="1">
+          <mxGeometry height="86" width="83" x="-2797.5" y="2320" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-204" edge="1" parent="1" source="M4WP1nLHC-CvDfxdz0Wg-201" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" target="M4WP1nLHC-CvDfxdz0Wg-203" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-201" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="Details" vertex="1">
+          <mxGeometry height="60" width="120" x="-2816" y="2459" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-203" parent="1" style="whiteSpace=wrap;html=1;dashed=1;dashPattern=1 4;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="BANK MENU" vertex="1">
+          <mxGeometry height="60" width="120" x="-2816" y="2594" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-208" edge="1" parent="1" source="M4WP1nLHC-CvDfxdz0Wg-205" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="M4WP1nLHC-CvDfxdz0Wg-207" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-205" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Deposit" vertex="1">
+          <mxGeometry height="60" width="120" x="-2461" y="1913" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-210" edge="1" parent="1" source="M4WP1nLHC-CvDfxdz0Wg-207" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="M4WP1nLHC-CvDfxdz0Wg-209" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-207" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;rounded=0;" value="Enter amount" vertex="1">
+          <mxGeometry height="60" width="120" x="-2461" y="2053" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-217" edge="1" parent="1" source="M4WP1nLHC-CvDfxdz0Wg-209" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="M4WP1nLHC-CvDfxdz0Wg-203">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-2640" y="2223" />
+              <mxPoint x="-2640" y="2624" />
+            </Array>
+            <mxPoint x="-2582.4674479166665" y="2630.341796875" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-218" connectable="0" parent="M4WP1nLHC-CvDfxdz0Wg-217" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="NO" vertex="1">
+          <mxGeometry relative="1" x="-0.6677" y="-2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-220" edge="1" parent="1" source="M4WP1nLHC-CvDfxdz0Wg-209" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="M4WP1nLHC-CvDfxdz0Wg-219" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-224" connectable="0" parent="M4WP1nLHC-CvDfxdz0Wg-220" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="YES" vertex="1">
+          <mxGeometry relative="1" x="-0.0587" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-209" parent="1" style="rhombus;whiteSpace=wrap;html=1;rounded=0;" value="amount &amp;gt; 0" vertex="1">
+          <mxGeometry height="80" width="80" x="-2441" y="2183" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-222" edge="1" parent="1" source="M4WP1nLHC-CvDfxdz0Wg-219" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="M4WP1nLHC-CvDfxdz0Wg-221" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-219" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="UPDATE TO DATABASE" vertex="1">
+          <mxGeometry height="60" width="120" x="-2461" y="2326" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-229" edge="1" parent="1" source="M4WP1nLHC-CvDfxdz0Wg-221" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="M4WP1nLHC-CvDfxdz0Wg-228">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-221" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="ACCOUNT BALANCE" vertex="1">
+          <mxGeometry height="60" width="120" x="-2461" y="2461" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-230" edge="1" parent="1" source="M4WP1nLHC-CvDfxdz0Wg-228" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="M4WP1nLHC-CvDfxdz0Wg-203">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-228" parent="1" style="shape=datastore;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="77" width="60" x="-2431" y="2585.5" as="geometry" />
+        </mxCell>
+        <mxCell id="M4WP1nLHC-CvDfxdz0Wg-231" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Withdraw" vertex="1">
+          <mxGeometry height="60" width="120" x="-2141" y="1907" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
