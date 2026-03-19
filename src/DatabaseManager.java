@@ -106,6 +106,54 @@ public class DatabaseManager {
         }
     }
 
+    public boolean accountUsernameExists(String username) {
+        String sql = "SELECT 1 FROM accounts WHERE username = ? LIMIT 1";
+
+        try (Connection conn = openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, username);
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException ex) {
+            throw new IllegalStateException("Cannot check account username in MySQL. " + ex.getMessage(), ex);
+        }
+    }
+
+    public Bank findAccountByUsername(String username) {
+        String sql =
+            "SELECT id, account_holder, age, address, gmail, telephone, username, pin, checking_balance, savings_balance, loan_amount " +
+            "FROM accounts WHERE username = ? LIMIT 1";
+
+        try (Connection conn = openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, username);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                }
+
+                return new Bank(
+                    rs.getInt("id"),
+                    rs.getString("account_holder"),
+                    rs.getInt("age"),
+                    rs.getString("address"),
+                    rs.getString("gmail"),
+                    rs.getString("telephone"),
+                    rs.getString("username"),
+                    rs.getDouble("checking_balance"),
+                    rs.getDouble("savings_balance"),
+                    rs.getDouble("loan_amount"),
+                    rs.getString("pin")
+                );
+            }
+        } catch (SQLException ex) {
+            throw new IllegalStateException("Cannot load account by username from MySQL. " + ex.getMessage(), ex);
+        }
+    }
+
     public void updateAccountFinancials(Bank account) {
         String sql = "UPDATE accounts SET checking_balance = ?, savings_balance = ?, loan_amount = ? WHERE id = ?";
 

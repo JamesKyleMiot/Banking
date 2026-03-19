@@ -11,14 +11,21 @@ public class BankSystem {
         this.allAccounts = new ArrayList<>();
         this.validator = new InputValidator();
         this.databaseManager = new DatabaseManager();
-        this.allAccounts.addAll(databaseManager.loadAccounts());
+        reloadAccountsFromDatabase();
+    }
+
+    public final void reloadAccountsFromDatabase() {
+        allAccounts.clear();
+        allAccounts.addAll(databaseManager.loadAccounts());
     }
 
     public Bank registerAccount(String accountHolder, int age, String address, String gmail,
                                 String telephone, String accountUsername, String pinText) {
         validateRegistrationInput(accountHolder, age, address, gmail, telephone, accountUsername, pinText);
 
-        if (isUsernameTaken(accountUsername)) {
+        String normalizedUsername = accountUsername.trim();
+
+        if (databaseManager.accountUsernameExists(normalizedUsername)) {
             throw new IllegalArgumentException("Username is already taken. Choose another one.");
         }
 
@@ -29,7 +36,7 @@ public class BankSystem {
             address.trim(),
             gmail.trim(),
             telephone,
-            accountUsername.trim(),
+            normalizedUsername,
             0.0,
             hashedPin,
             0.0
@@ -87,17 +94,25 @@ public class BankSystem {
             throw new IllegalArgumentException(pinError);
         }
 
-        for (Bank account : allAccounts) {
+        Bank account = databaseManager.findAccountByUsername(usernameForLog);
+        if (account != null) {
             String storedPin = account.getPinHash();
-            if (account.getAccountUsername().equals(usernameForLog)
-                && storedPin != null
-                && PasswordUtil.verifyPassword(pinText, storedPin)) {
-
+            if (storedPin != null && PasswordUtil.verifyPassword(pinText, storedPin)) {
                 if (!PasswordUtil.isPbkdf2Hash(storedPin)) {
                     String hashedPin = PasswordUtil.hashPassword(pinText);
                     account.setPinHash(hashedPin);
                     databaseManager.updateAccountPinHash(account.getAccountId(), hashedPin);
                 }
+
+                for (int i = 0; i < allAccounts.size(); i++) {
+                    if (allAccounts.get(i).getAccountId() == account.getAccountId()) {
+                        allAccounts.set(i, account);
+                        databaseManager.logLoginAttempt("CLIENT", usernameForLog, true, "Login successful");
+                        return account;
+                    }
+                }
+
+                allAccounts.add(account);
                 databaseManager.logLoginAttempt("CLIENT", usernameForLog, true, "Login successful");
                 return account;
             }
@@ -120,10 +135,12 @@ public class BankSystem {
     }
 
     public int getTotalAccounts() {
+        reloadAccountsFromDatabase();
         return allAccounts.size();
     }
 
     public List<Bank> getAllAccounts() {
+        reloadAccountsFromDatabase();
         return Collections.unmodifiableList(allAccounts);
     }
 
@@ -144,12 +161,7 @@ public class BankSystem {
 
     public boolean isUsernameTaken(String username) {
         String cleanUsername = username == null ? "" : username.trim();
-        for (Bank account : allAccounts) {
-            if (account.getAccountUsername().equalsIgnoreCase(cleanUsername)) {
-                return true;
-            }
-        }
-        return false;
+        return databaseManager.accountUsernameExists(cleanUsername);
     }
 
     private void validateRegistrationInput(String accountHolder, int age, String address, String gmail,

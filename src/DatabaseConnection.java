@@ -6,8 +6,8 @@ import java.sql.Statement;
 public final class DatabaseConnection {
     private static final String DB_HOST = "localhost";
     private static final int DB_PORT = 3306;
-    // You can change this in NetBeans VM options using: -Dbank.db.name=jameskylebanks
-    private static final String DB_NAME = System.getProperty("bank.db.name", "jameskylebanks");
+    // You can change this in NetBeans VM options using: -Dbank.db.name=jameskylebank
+    private static final String DB_NAME = resolveDatabaseName();
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
     private static final String SERVER_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/?useSSL=false&serverTimezone=UTC";
@@ -23,6 +23,17 @@ public final class DatabaseConnection {
 
     public static String getDatabaseName() {
         return DB_NAME;
+    }
+
+    private static String resolveDatabaseName() {
+        String configured = System.getProperty("bank.db.name");
+        if (configured != null) {
+            String trimmed = configured.trim();
+            if (!trimmed.isEmpty()) {
+                return trimmed;
+            }
+        }
+        return "jameskylebank";
     }
 
     public static void ensureMySqlDriverLoaded() {
