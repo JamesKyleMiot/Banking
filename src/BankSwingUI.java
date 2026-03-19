@@ -33,6 +33,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class BankSwingUI extends JFrame {
     private static final String SCREEN_WELCOME = "welcome";
+    private static final String SCREEN_REGISTER = "register";
     private static final String SCREEN_LOGIN = "login";
     private static final String SCREEN_ADMIN_LOGIN = "adminLogin";
     private static final String SCREEN_USER_DASHBOARD = "userDashboard";
@@ -54,6 +55,14 @@ public class BankSwingUI extends JFrame {
 
     private Bank currentAccount;
     private static final String ADMIN_LOCALHOST_URL = "http://localhost/phpmyadmin";
+
+    private JTextField regNameField;
+    private JTextField regAgeField;
+    private JTextField regAddressField;
+    private JTextField regGmailField;
+    private JTextField regTelephoneField;
+    private JTextField regUsernameField;
+    private JPasswordField regPinField;
 
     private JTextField loginUsernameField;
     private JPasswordField loginPinField;
@@ -87,6 +96,7 @@ public class BankSwingUI extends JFrame {
         cards.setOpaque(false);
 
         cards.add(buildWelcomeScreen(), SCREEN_WELCOME);
+        cards.add(buildRegisterScreen(), SCREEN_REGISTER);
         cards.add(buildLoginScreen(), SCREEN_LOGIN);
         cards.add(buildAdminLoginScreen(), SCREEN_ADMIN_LOGIN);
         cards.add(buildUserDashboardScreen(), SCREEN_USER_DASHBOARD);
@@ -119,6 +129,9 @@ public class BankSwingUI extends JFrame {
         highlight.setFont(new Font("Segoe UI", Font.BOLD, 18));
         highlight.setForeground(ACCENT.darker());
 
+        JButton registerBtn = primaryButton("Create Client Account");
+        registerBtn.addActionListener(e -> showScreen(SCREEN_REGISTER));
+
         JButton loginBtn = primaryButton("Client Login Page");
         loginBtn.addActionListener(e -> showScreen(SCREEN_LOGIN));
 
@@ -138,14 +151,71 @@ public class BankSwingUI extends JFrame {
 
         gbc.insets = new Insets(28, 40, 10, 40);
         gbc.gridy = 3;
+        card.add(registerBtn, gbc);
+
+        gbc.insets = new Insets(10, 40, 10, 40);
+        gbc.gridy = 4;
         card.add(loginBtn, gbc);
 
         gbc.insets = new Insets(10, 40, 16, 40);
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         card.add(adminBtn, gbc);
 
         content.add(card);
         return content;
+    }
+
+    private JPanel buildRegisterScreen() {
+        JPanel form = new JPanel(new GridBagLayout());
+        form.setOpaque(false);
+
+        JPanel card = makeCardPanel(new GridBagLayout(), 700, 530);
+        GridBagConstraints gbc = baseGbc();
+
+        JLabel title = sectionTitle("Register Client Account");
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(12, 10, 18, 10);
+        card.add(title, gbc);
+
+        gbc.gridwidth = 1;
+        gbc.insets = new Insets(8, 10, 8, 10);
+
+        regNameField = new JTextField();
+        regAgeField = new JTextField();
+        regAddressField = new JTextField();
+        regGmailField = new JTextField();
+        regTelephoneField = new JTextField();
+        regUsernameField = new JTextField();
+        regPinField = new JPasswordField();
+
+        addFormRow(card, gbc, 1, "Full Name", regNameField);
+        addFormRow(card, gbc, 2, "Age", regAgeField);
+        addFormRow(card, gbc, 3, "Address", regAddressField);
+        addFormRow(card, gbc, 4, "Gmail", regGmailField);
+        addFormRow(card, gbc, 5, "Telephone", regTelephoneField);
+        addFormRow(card, gbc, 6, "Username", regUsernameField);
+        addFormRow(card, gbc, 7, "6-digit PIN", regPinField);
+
+        JButton registerBtn = primaryButton("Register");
+        registerBtn.addActionListener(e -> handleRegister());
+
+        JButton backBtn = textButton("Back");
+        backBtn.addActionListener(e -> showScreen(SCREEN_WELCOME));
+
+        JPanel actions = new JPanel(new GridLayout(1, 2, 12, 0));
+        actions.setOpaque(false);
+        actions.add(registerBtn);
+        actions.add(backBtn);
+
+        gbc.gridy = 8;
+        gbc.gridx = 0;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(20, 10, 8, 10);
+        card.add(actions, gbc);
+
+        form.add(card);
+        return form;
     }
 
     private JPanel buildLoginScreen() {
@@ -431,6 +501,27 @@ public class BankSwingUI extends JFrame {
         showError("Invalid admin credentials.");
     }
 
+    private void handleRegister() {
+        try {
+            String name = regNameField.getText();
+            int age = Integer.parseInt(regAgeField.getText().trim());
+            String address = regAddressField.getText();
+            String gmail = regGmailField.getText();
+            String telephone = regTelephoneField.getText().trim();
+            String username = regUsernameField.getText();
+            String pin = new String(regPinField.getPassword());
+
+            bankSystem.registerAccount(name, age, address, gmail, telephone, username, pin);
+            clearRegistrationForm();
+            showInfo("Client account registered successfully.");
+            showScreen(SCREEN_LOGIN);
+        } catch (NumberFormatException ex) {
+            showError("Age must be a number.");
+        } catch (IllegalArgumentException ex) {
+            showError(ex.getMessage());
+        }
+    }
+
     private void handleAmountAction(String actionName, AmountAction action) {
         String rawAmount = JOptionPane.showInputDialog(this, "Enter amount for " + actionName + ":", actionName, JOptionPane.QUESTION_MESSAGE);
         if (rawAmount == null) {
@@ -652,6 +743,16 @@ public class BankSwingUI extends JFrame {
 
     private void showScreen(String screenName) {
         cardLayout.show(cards, screenName);
+    }
+
+    private void clearRegistrationForm() {
+        regNameField.setText("");
+        regAgeField.setText("");
+        regAddressField.setText("");
+        regGmailField.setText("");
+        regTelephoneField.setText("");
+        regUsernameField.setText("");
+        regPinField.setText("");
     }
 
     private String formatMoney(double value) {
