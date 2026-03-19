@@ -25,13 +25,8 @@ public class DatabaseConnectionTest {
                     logCount = rs.getInt(1);
                 }
 
-                System.out.println("Database connected successfully: " + conn.getCatalog());
-                System.out.println("Active DB config: " + DatabaseConnection.getDatabaseName());
-                System.out.println("Dedicated function DB: jameskylebank");
-                System.out.println("MySQL host: " + DatabaseConnection.getDatabaseHost() + ":" + DatabaseConnection.getDatabasePort());
-                System.out.println("MySQL user: " + DatabaseConnection.getDatabaseUser());
-                System.out.println("MySQL connector available: " + (connectorOk ? "YES" : "NO"));
-                System.out.println("MySQL connector version: " + connectorVersion);
+                System.out.println("=== DATABASE CONNECTION TEST ===");
+                System.out.println(DatabaseConnection.getTableInfo());
                 System.out.println("Connection ping test (SELECT 1): " + (pingOk ? "PASS" : "FAIL"));
                 System.out.println("login_logs rows: " + logCount);
 

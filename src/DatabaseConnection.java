@@ -2,6 +2,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public final class DatabaseConnection {
     private static final String DB_HOST = resolveString("bank.db.host", "BANK_DB_HOST", "localhost");
@@ -132,5 +134,46 @@ public final class DatabaseConnection {
             throw new IllegalArgumentException("Database name contains invalid characters.");
         }
         return clean;
+    }
+
+    public static int getTableAccountCount() {
+        try (Connection conn = getJamesKylebankConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM accounts");
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        } catch (SQLException ex) {
+            throw new IllegalStateException("Cannot count accounts table: " + ex.getMessage(), ex);
+        }
+    }
+
+    public static int getTableLoginLogCount() {
+        try (Connection conn = getJamesKylebankConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM login_logs");
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        } catch (SQLException ex) {
+            throw new IllegalStateException("Cannot count login_logs table: " + ex.getMessage(), ex);
+        }
+    }
+
+    public static String getTableInfo() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Database: ").append(DB_NAME).append("\n");
+        sb.append("Host: ").append(DB_HOST).append(":").append(DB_PORT).append("\n");
+        sb.append("User: ").append(DB_USER).append("\n");
+        sb.append("Connector: ").append(getMySqlConnectorVersion()).append("\n");
+        try {
+            sb.append("Accounts table rows: ").append(getTableAccountCount()).append("\n");
+            sb.append("Login logs table rows: ").append(getTableLoginLogCount()).append("\n");
+        } catch (Exception ex) {
+            sb.append("Table info error: ").append(ex.getMessage()).append("\n");
+        }
+        return sb.toString();
     }
 }
