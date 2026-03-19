@@ -1,4 +1,5 @@
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class DatabaseConnectionTest {
     public static void main(String[] args) {
@@ -7,9 +8,8 @@ public class DatabaseConnectionTest {
             try (Connection conn = DatabaseConnection.getConnection()) {
                 System.out.println("Database connected successfully: " + conn.getCatalog());
             }
-        } catch (Exception ex) {
+        } catch (IllegalStateException | SQLException ex) {
             System.out.println("Database connection failed: " + ex.getMessage());
-            ex.printStackTrace();
         }
     }
 }

@@ -12,6 +12,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.RenderingHints;
+import java.io.IOException;
 import java.net.URI;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -53,14 +54,6 @@ public class BankSwingUI extends JFrame {
 
     private Bank currentAccount;
     private static final String ADMIN_LOCALHOST_URL = "http://localhost/phpmyadmin";
-
-    private JTextField regNameField;
-    private JTextField regAgeField;
-    private JTextField regAddressField;
-    private JTextField regGmailField;
-    private JTextField regTelephoneField;
-    private JTextField regUsernameField;
-    private JPasswordField regPinField;
 
     private JTextField loginUsernameField;
     private JPasswordField loginPinField;
@@ -680,7 +673,7 @@ public class BankSwingUI extends JFrame {
                 return;
             }
             Desktop.getDesktop().browse(URI.create("http://localhost/phpmyadmin"));
-        } catch (Exception ex) {
+        } catch (IOException | SecurityException ex) {
             showError("Could not open phpMyAdmin. Make sure XAMPP Apache is running.\n" + ex.getMessage());
         }
     }
@@ -692,7 +685,7 @@ public class BankSwingUI extends JFrame {
                 return;
             }
             Desktop.getDesktop().browse(URI.create(ADMIN_LOCALHOST_URL));
-        } catch (Exception ex) {
+        } catch (IOException | SecurityException ex) {
             showError("Could not open admin localhost.\n" + ex.getMessage());
         }
     }
