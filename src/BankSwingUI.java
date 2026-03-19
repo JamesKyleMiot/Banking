@@ -54,7 +54,11 @@ public class BankSwingUI extends JFrame {
     private final JPanel cards;
 
     private Bank currentAccount;
-    private static final String ADMIN_LOCALHOST_URL = "http://localhost/phpmyadmin";
+    private static final String ACTIVE_DB = DatabaseConnection.getDatabaseName();
+    private static final String ADMIN_LOCALHOST_URL =
+        "http://localhost/phpmyadmin/index.php?route=/database/structure&db=" + ACTIVE_DB;
+    private static final String ACCOUNTS_TABLE_URL =
+        "http://localhost/phpmyadmin/index.php?route=/table/structure&db=" + ACTIVE_DB + "&table=accounts";
 
     private JTextField regNameField;
     private JTextField regAgeField;
@@ -775,7 +779,7 @@ public class BankSwingUI extends JFrame {
                 showError("Desktop browse is not supported on this machine.");
                 return;
             }
-            Desktop.getDesktop().browse(URI.create("http://localhost/phpmyadmin"));
+            Desktop.getDesktop().browse(URI.create(ACCOUNTS_TABLE_URL));
         } catch (IOException | SecurityException ex) {
             showError("Could not open phpMyAdmin. Make sure XAMPP Apache is running.\n" + ex.getMessage());
         }
