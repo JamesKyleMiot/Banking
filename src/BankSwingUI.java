@@ -471,7 +471,7 @@ public class BankSwingUI extends JFrame {
         JScrollPane scrollPane = new JScrollPane(adminTable);
         tableCard.add(scrollPane, BorderLayout.CENTER);
 
-        JPanel actions = new JPanel(new GridLayout(1, 5, 10, 0));
+        JPanel actions = new JPanel(new GridLayout(1, 6, 10, 0));
         actions.setOpaque(false);
         actions.setBorder(new EmptyBorder(10, 0, 0, 0));
 
@@ -490,11 +490,15 @@ public class BankSwingUI extends JFrame {
         JButton phpMyAdminBtn = textButton("Open phpMyAdmin");
         phpMyAdminBtn.addActionListener(e -> openPhpMyAdmin());
 
+        JButton logsBtn = textButton("View Login Logs");
+        logsBtn.addActionListener(e -> showLoginLogs());
+
         actions.add(refreshBtn);
         actions.add(detailsBtn);
         actions.add(deleteBtn);
         actions.add(totalBtn);
         actions.add(phpMyAdminBtn);
+        actions.add(logsBtn);
 
         tableCard.add(actions, BorderLayout.SOUTH);
 
@@ -598,7 +602,7 @@ public class BankSwingUI extends JFrame {
         for (int i = 0; i < accounts.size(); i++) {
             Bank account = accounts.get(i);
             adminTableModel.addRow(new Object[] {
-                i + 1,
+                account.getAccountId(),
                 account.getAccountUsername(),
                 account.getAccountHolder(),
                 formatMoney(account.getBalance()),
@@ -618,7 +622,7 @@ public class BankSwingUI extends JFrame {
         try {
             Bank account = bankSystem.getAccountByIndex(selected);
             String details =
-                "Account ID: " + (selected + 1) + "\n" +
+                "Account ID: " + account.getAccountId() + "\n" +
                 "Username: " + account.getAccountUsername() + "\n" +
                 "Account Holder: " + account.getAccountHolder() + "\n" +
                 "Age: " + account.getAge() + "\n" +
@@ -633,6 +637,43 @@ public class BankSwingUI extends JFrame {
             JOptionPane.showMessageDialog(this, details, "Account Details", JOptionPane.INFORMATION_MESSAGE);
         } catch (IllegalArgumentException ex) {
             showError(ex.getMessage());
+        }
+    }
+
+    private void showLoginLogs() {
+        try {
+            List<String[]> logs = bankSystem.getRecentLoginLogs(200);
+
+            DefaultTableModel logModel = new DefaultTableModel(
+                new Object[] {"ID", "Role", "Username", "Success", "Notes", "Logged At"},
+                0
+            ) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+
+            for (String[] logRow : logs) {
+                logModel.addRow(logRow);
+            }
+
+            JTable logTable = new JTable(logModel);
+            logTable.setRowHeight(24);
+            logTable.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+            logTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 13));
+
+            JScrollPane scrollPane = new JScrollPane(logTable);
+            scrollPane.setPreferredSize(new Dimension(860, 360));
+
+            JOptionPane.showMessageDialog(
+                this,
+                scrollPane,
+                "Recent Login Logs",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+        } catch (IllegalStateException ex) {
+            showError("Cannot load login logs: " + ex.getMessage());
         }
     }
 

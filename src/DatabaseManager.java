@@ -154,6 +154,34 @@ public class DatabaseManager {
         }
     }
 
+    public List<String[]> loadRecentLoginLogs(int limit) {
+        int safeLimit = Math.max(1, limit);
+        List<String[]> logs = new ArrayList<>();
+        String sql = "SELECT id, role, username, success, notes, logged_at FROM login_logs ORDER BY id DESC LIMIT ?";
+
+        try (Connection conn = openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, safeLimit);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    logs.add(new String[] {
+                        String.valueOf(rs.getInt("id")),
+                        rs.getString("role"),
+                        rs.getString("username"),
+                        rs.getBoolean("success") ? "TRUE" : "FALSE",
+                        rs.getString("notes"),
+                        rs.getString("logged_at")
+                    });
+                }
+            }
+
+            return logs;
+        } catch (SQLException ex) {
+            throw new IllegalStateException("Cannot load login logs from MySQL. " + ex.getMessage(), ex);
+        }
+    }
+
     public void updateAccountFinancials(Bank account) {
         String sql = "UPDATE accounts SET checking_balance = ?, savings_balance = ?, loan_amount = ? WHERE id = ?";
 

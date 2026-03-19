@@ -164,6 +164,10 @@ public class BankSystem {
         return databaseManager.accountUsernameExists(cleanUsername);
     }
 
+    public List<String[]> getRecentLoginLogs(int limit) {
+        return databaseManager.loadRecentLoginLogs(limit);
+    }
+
     private void validateRegistrationInput(String accountHolder, int age, String address, String gmail,
                                            String telephone, String accountUsername, String pinText) {
         String[] errors = {
