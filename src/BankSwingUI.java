@@ -51,6 +51,7 @@ public class BankSwingUI extends JFrame {
     private final JPanel cards;
 
     private Bank currentAccount;
+    private boolean registrationFromAdmin;
 
     private JTextField regNameField;
     private JTextField regAgeField;
@@ -110,7 +111,7 @@ public class BankSwingUI extends JFrame {
         JPanel content = new JPanel(new GridBagLayout());
         content.setOpaque(false);
 
-        JPanel card = makeCardPanel(new GridBagLayout(), 620, 460);
+        JPanel card = makeCardPanel(new GridBagLayout(), 620, 420);
         GridBagConstraints gbc = baseGbc();
 
         JLabel title = new JLabel("CAGUIOA BANK", SwingConstants.CENTER);
@@ -125,13 +126,10 @@ public class BankSwingUI extends JFrame {
         highlight.setFont(new Font("Segoe UI", Font.BOLD, 18));
         highlight.setForeground(ACCENT.darker());
 
-        JButton registerBtn = primaryButton("Create New Account");
-        registerBtn.addActionListener(e -> showScreen(SCREEN_REGISTER));
-
-        JButton loginBtn = secondaryButton("Login to Existing Account");
+        JButton loginBtn = primaryButton("Client Login Page");
         loginBtn.addActionListener(e -> showScreen(SCREEN_LOGIN));
 
-        JButton adminBtn = textButton("Admin Panel");
+        JButton adminBtn = secondaryButton("Admin Login Page");
         adminBtn.addActionListener(e -> showScreen(SCREEN_ADMIN_LOGIN));
 
         gbc.insets = new Insets(12, 20, 4, 20);
@@ -145,16 +143,12 @@ public class BankSwingUI extends JFrame {
         gbc.gridy = 2;
         card.add(highlight, gbc);
 
-        gbc.insets = new Insets(30, 40, 8, 40);
+        gbc.insets = new Insets(28, 40, 10, 40);
         gbc.gridy = 3;
-        card.add(registerBtn, gbc);
-
-        gbc.insets = new Insets(8, 40, 8, 40);
-        gbc.gridy = 4;
         card.add(loginBtn, gbc);
 
         gbc.insets = new Insets(10, 40, 16, 40);
-        gbc.gridy = 5;
+        gbc.gridy = 4;
         card.add(adminBtn, gbc);
 
         content.add(card);
@@ -168,7 +162,7 @@ public class BankSwingUI extends JFrame {
         JPanel card = makeCardPanel(new GridBagLayout(), 700, 530);
         GridBagConstraints gbc = baseGbc();
 
-        JLabel title = sectionTitle("Register New Account");
+        JLabel title = sectionTitle("Create Client Account");
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         gbc.insets = new Insets(12, 10, 18, 10);
@@ -197,7 +191,14 @@ public class BankSwingUI extends JFrame {
         registerBtn.addActionListener(e -> handleRegister());
 
         JButton backBtn = textButton("Back");
-        backBtn.addActionListener(e -> showScreen(SCREEN_WELCOME));
+        backBtn.addActionListener(e -> {
+            if (registrationFromAdmin) {
+                registrationFromAdmin = false;
+                showScreen(SCREEN_ADMIN_DASHBOARD);
+                return;
+            }
+            showScreen(SCREEN_WELCOME);
+        });
 
         JPanel actions = new JPanel(new GridLayout(1, 2, 12, 0));
         actions.setOpaque(false);
@@ -436,7 +437,7 @@ public class BankSwingUI extends JFrame {
         JScrollPane scrollPane = new JScrollPane(adminTable);
         tableCard.add(scrollPane, BorderLayout.CENTER);
 
-        JPanel actions = new JPanel(new GridLayout(1, 4, 10, 0));
+        JPanel actions = new JPanel(new GridLayout(1, 5, 10, 0));
         actions.setOpaque(false);
         actions.setBorder(new EmptyBorder(10, 0, 0, 0));
 
@@ -449,12 +450,20 @@ public class BankSwingUI extends JFrame {
         JButton deleteBtn = secondaryButton("Delete Account");
         deleteBtn.addActionListener(e -> deleteSelectedAccount());
 
+        JButton createBtn = primaryButton("Create Client");
+        createBtn.addActionListener(e -> {
+            registrationFromAdmin = true;
+            clearRegistrationForm();
+            showScreen(SCREEN_REGISTER);
+        });
+
         JButton totalBtn = textButton("Total Accounts");
         totalBtn.addActionListener(e -> showInfo("Total registered accounts: " + bankSystem.getTotalAccounts()));
 
         actions.add(refreshBtn);
         actions.add(detailsBtn);
         actions.add(deleteBtn);
+        actions.add(createBtn);
         actions.add(totalBtn);
 
         tableCard.add(actions, BorderLayout.SOUTH);
@@ -478,7 +487,13 @@ public class BankSwingUI extends JFrame {
 
             clearRegistrationForm();
             showInfo("Account created successfully for " + account.getAccountHolder() + ".");
-            showScreen(SCREEN_LOGIN);
+            if (registrationFromAdmin) {
+                registrationFromAdmin = false;
+                refreshAdminTable();
+                showScreen(SCREEN_ADMIN_DASHBOARD);
+            } else {
+                showScreen(SCREEN_LOGIN);
+            }
         } catch (NumberFormatException ex) {
             showError("Age must be a number.");
         } catch (IllegalArgumentException ex) {
