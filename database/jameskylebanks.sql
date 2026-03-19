@@ -21,6 +21,15 @@ CREATE TABLE IF NOT EXISTS admins (
     password VARCHAR(120) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS login_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    role VARCHAR(20) NOT NULL,
+    username VARCHAR(80) NOT NULL,
+    success BOOLEAN NOT NULL,
+    notes VARCHAR(255),
+    logged_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 INSERT INTO admins (username, password)
 VALUES ('Admin', 'P@&&Word$')
 ON DUPLICATE KEY UPDATE username = username;

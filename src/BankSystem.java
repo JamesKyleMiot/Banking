@@ -73,13 +73,17 @@ public class BankSystem {
     }
 
     public Bank loginAccount(String accountUsername, String pinText) {
+        String usernameForLog = accountUsername == null ? "" : accountUsername.trim();
+
         String usernameError = validator.validateUsername(accountUsername);
         if (usernameError != null) {
+            databaseManager.logLoginAttempt("CLIENT", usernameForLog, false, usernameError);
             throw new IllegalArgumentException(usernameError);
         }
 
         String pinError = validator.validatePin(pinText);
         if (pinError != null) {
+            databaseManager.logLoginAttempt("CLIENT", usernameForLog, false, pinError);
             throw new IllegalArgumentException(pinError);
         }
 
@@ -87,18 +91,25 @@ public class BankSystem {
 
         for (Bank account : allAccounts) {
             if (account.getAccountUsername().equals(accountUsername.trim()) && account.getPin() == pin) {
+                databaseManager.logLoginAttempt("CLIENT", usernameForLog, true, "Login successful");
                 return account;
             }
         }
 
+        databaseManager.logLoginAttempt("CLIENT", usernameForLog, false, "Invalid username or PIN");
         throw new IllegalArgumentException("Invalid username or PIN.");
     }
 
     public boolean loginAdmin(String username, String password) {
         if (username == null || password == null) {
+            databaseManager.logLoginAttempt("ADMIN", "", false, "Missing username or password");
             return false;
         }
-        return databaseManager.validateAdminCredentials(username.trim(), password);
+
+        String usernameForLog = username.trim();
+        boolean success = databaseManager.validateAdminCredentials(usernameForLog, password);
+        databaseManager.logLoginAttempt("ADMIN", usernameForLog, success, success ? "Login successful" : "Invalid admin credentials");
+        return success;
     }
 
     public int getTotalAccounts() {

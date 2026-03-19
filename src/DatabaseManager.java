@@ -33,6 +33,22 @@ public class DatabaseManager {
         }
     }
 
+    public void logLoginAttempt(String role, String username, boolean success, String notes) {
+        String sql = "INSERT INTO login_logs (role, username, success, notes) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, role);
+            stmt.setString(2, username == null ? "" : username);
+            stmt.setBoolean(3, success);
+            stmt.setString(4, notes);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new IllegalStateException("Cannot save login log into MySQL. " + ex.getMessage(), ex);
+        }
+    }
+
     public List<Bank> loadAccounts() {
         List<Bank> accounts = new ArrayList<>();
         String sql = "SELECT id, account_holder, age, address, gmail, telephone, username, pin, checking_balance, savings_balance, loan_amount FROM accounts ORDER BY id";
@@ -149,6 +165,16 @@ public class DatabaseManager {
             "password VARCHAR(120) NOT NULL" +
             ")";
 
+        String createLoginLogsTableSql =
+            "CREATE TABLE IF NOT EXISTS login_logs (" +
+            "id INT AUTO_INCREMENT PRIMARY KEY," +
+            "role VARCHAR(20) NOT NULL," +
+            "username VARCHAR(80) NOT NULL," +
+            "success BOOLEAN NOT NULL," +
+            "notes VARCHAR(255)," +
+            "logged_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP" +
+            ")";
+
         String seedAdminSql =
             "INSERT INTO admins (username, password) VALUES ('Admin', 'P@&&Word$') " +
             "ON DUPLICATE KEY UPDATE username = username";
@@ -156,6 +182,7 @@ public class DatabaseManager {
         try (Connection conn = openConnection(); Statement stmt = conn.createStatement()) {
             stmt.execute(createAccountsTableSql);
             stmt.execute(createAdminsTableSql);
+            stmt.execute(createLoginLogsTableSql);
             stmt.execute(seedAdminSql);
         } catch (SQLException ex) {
             throw new IllegalStateException(
