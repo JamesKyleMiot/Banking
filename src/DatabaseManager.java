@@ -1,5 +1,4 @@
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,10 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseManager {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/jameskylebank?useSSL=false&serverTimezone=UTC";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "";
-
     public DatabaseManager() {
         ensureDriverPresent();
         ensureSchema();
@@ -134,17 +129,10 @@ public class DatabaseManager {
     }
 
     private Connection openConnection() throws SQLException {
-        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        return DatabaseConnection.getConnection();
     }
 
     private void ensureDriverPresent() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException ex) {
-            throw new IllegalStateException(
-                "MySQL JDBC driver not found. Add mysql-connector-j to your project classpath.",
-                ex
-            );
-        }
+        DatabaseConnection.ensureMySqlDriverLoaded();
     }
 }
