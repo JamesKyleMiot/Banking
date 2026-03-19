@@ -8,10 +8,13 @@ public class BankSystem {
 
     private final List<Bank> allAccounts;
     private final InputValidator validator;
+    private final DatabaseManager databaseManager;
 
     public BankSystem() {
         this.allAccounts = new ArrayList<>();
         this.validator = new InputValidator();
+        this.databaseManager = new DatabaseManager();
+        this.allAccounts.addAll(databaseManager.loadAccounts());
     }
 
     public Bank registerAccount(String accountHolder, int age, String address, String gmail,
@@ -35,8 +38,41 @@ public class BankSystem {
             0.0
         );
 
+        int newAccountId = databaseManager.insertAccount(account);
+        account.setAccountId(newAccountId);
         allAccounts.add(account);
         return account;
+    }
+
+    public void deposit(Bank account, double amount) {
+        account.deposit(amount);
+        databaseManager.updateAccountFinancials(account);
+    }
+
+    public void withdraw(Bank account, double amount) {
+        account.withdraw(amount);
+        databaseManager.updateAccountFinancials(account);
+    }
+
+    public void transferToSavings(Bank account, double amount) {
+        account.transferToSavings(amount);
+        databaseManager.updateAccountFinancials(account);
+    }
+
+    public void withdrawFromSavings(Bank account, double amount) {
+        account.withdrawFromSavings(amount);
+        databaseManager.updateAccountFinancials(account);
+    }
+
+    public double requestLoan(Bank account, double amount) {
+        double totalLoan = account.requestLoan(amount);
+        databaseManager.updateAccountFinancials(account);
+        return totalLoan;
+    }
+
+    public void payLoanInFull(Bank account) {
+        account.payLoanInFull();
+        databaseManager.updateAccountFinancials(account);
     }
 
     public Bank loginAccount(String accountUsername, String pinText) {
@@ -84,7 +120,8 @@ public class BankSystem {
         if (index < 0 || index >= allAccounts.size()) {
             throw new IllegalArgumentException("Invalid account selection.");
         }
-        allAccounts.remove(index);
+        Bank removed = allAccounts.remove(index);
+        databaseManager.deleteAccount(removed.getAccountId());
     }
 
     public boolean isUsernameTaken(String username) {
