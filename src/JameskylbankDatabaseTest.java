@@ -1,6 +1,8 @@
 /**
  * Quick test for jameskylebank database functions (lowercase).
  */
+import java.sql.SQLException;
+
 public class JameskylbankDatabaseTest {
     public static void main(String[] args) {
         System.out.println("╔═══════════════════════════════════════════════════════╗");
@@ -16,24 +18,20 @@ public class JameskylbankDatabaseTest {
 
         // Test 2: Connect to jameskylebank
         System.out.println("2. CONNECT TO JAMESKYLEBANK:");
-        try {
-            var conn = MySQLConnectorUtil.connectToJameskylebank();
+        try (var conn = MySQLConnectorUtil.connectToJameskylebank()) {
             System.out.println("   Connected to: " + conn.getCatalog());
             System.out.println("   Status: ✓ SUCCESS");
-            conn.close();
-        } catch (Exception ex) {
+        } catch (SQLException | IllegalStateException ex) {
             System.out.println("   Error: " + ex.getMessage());
         }
         System.out.println();
 
         // Test 3: Connect using generic method
         System.out.println("3. CONNECT TO DATABASE BY NAME 'jameskylebank':");
-        try {
-            var conn = MySQLConnectorUtil.connectToDatabase("jameskylebank");
+        try (var conn = MySQLConnectorUtil.connectToDatabase("jameskylebank")) {
             System.out.println("   Connected to: " + conn.getCatalog());
             System.out.println("   Status: ✓ SUCCESS");
-            conn.close();
-        } catch (Exception ex) {
+        } catch (SQLException | IllegalStateException ex) {
             System.out.println("   Error: " + ex.getMessage());
         }
         System.out.println();

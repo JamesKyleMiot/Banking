@@ -6,8 +6,6 @@ import java.sql.SQLException;
 public class DatabaseConnectionTest {
     public static void main(String[] args) {
         try {
-            boolean connectorOk = DatabaseConnection.isMySqlConnectorAvailable();
-            String connectorVersion = DatabaseConnection.getMySqlConnectorVersion();
             DatabaseConnection.ensureMySqlDriverLoaded();
             DatabaseManager manager = new DatabaseManager();
 

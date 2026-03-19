@@ -2,6 +2,8 @@
  * MySQLConnectorUtil Demo - Example code showing how to use the MySQL Connector Utility.
  * Run this from NetBeans to see all available connector functions.
  */
+import java.sql.SQLException;
+
 public class MySQLConnectorUtilDemo {
 
     public static void main(String[] args) {
@@ -49,7 +51,7 @@ public class MySQLConnectorUtilDemo {
             var count = MySQLConnectorUtil.executeSingleQuery("SELECT COUNT(*) FROM login_logs");
             System.out.println("   Count: " + count);
 
-        } catch (Exception ex) {
+        } catch (SQLException | IllegalStateException ex) {
             System.out.println("   Error: " + ex.getMessage());
         }
 
