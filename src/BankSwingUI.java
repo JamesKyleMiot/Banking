@@ -38,12 +38,15 @@ public class BankSwingUI extends JFrame {
     private static final String SCREEN_USER_DASHBOARD = "userDashboard";
     private static final String SCREEN_ADMIN_DASHBOARD = "adminDashboard";
 
-    private static final Color PRIMARY = new Color(12, 94, 114);
-    private static final Color PRIMARY_DARK = new Color(8, 63, 77);
-    private static final Color ACCENT = new Color(242, 169, 59);
-    private static final Color SOFT_BG = new Color(243, 248, 250);
-    private static final Color CARD_BG = new Color(255, 255, 255, 235);
-    private static final Color TEXT_DARK = new Color(32, 40, 45);
+    // Modern Color Palette
+    private static final Color PRIMARY = new Color(25, 103, 210);        // Modern Blue
+    private static final Color PRIMARY_DARK = new Color(13, 71, 161);    // Dark Blue
+    private static final Color ACCENT = new Color(255, 179, 64);         // Modern Orange-Gold
+    private static final Color SOFT_BG = new Color(240, 245, 250);       // Light Blue
+    private static final Color CARD_BG = new Color(255, 255, 255, 245);  // Pure White
+    private static final Color TEXT_DARK = new Color(25, 32, 45);        // Dark Text
+    private static final Color TEXT_LIGHT = new Color(100, 110, 130);    // Light Text
+    private static final Color BORDER_COLOR = new Color(224, 230, 240);  // Light Border
 
     private final BankSystem bankSystem;
     private final InputValidator validator;
@@ -139,16 +142,16 @@ public class BankSwingUI extends JFrame {
         GridBagConstraints gbc = baseGbc();
 
         JLabel title = new JLabel("CAGUIOA BANK", SwingConstants.CENTER);
-        title.setFont(new Font("Segoe UI", Font.BOLD, 46));
-        title.setForeground(TEXT_DARK);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 44));
+        title.setForeground(PRIMARY);
 
         JLabel subtitle = new JLabel("The Choice of the People", SwingConstants.CENTER);
-        subtitle.setFont(new Font("Segoe UI", Font.PLAIN, 22));
-        subtitle.setForeground(PRIMARY_DARK);
+        subtitle.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+        subtitle.setForeground(TEXT_LIGHT);
 
-        JLabel highlight = new JLabel("Only 5% Loan Interest", SwingConstants.CENTER);
-        highlight.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        highlight.setForeground(ACCENT.darker());
+        JLabel highlight = new JLabel("💰 Only 5% Loan Interest - 24/7 Banking", SwingConstants.CENTER);
+        highlight.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        highlight.setForeground(ACCENT);
 
         JButton registerBtn = primaryButton("Create Account");
         registerBtn.addActionListener(e -> showScreen(SCREEN_REGISTER));
@@ -159,34 +162,34 @@ public class BankSwingUI extends JFrame {
         JButton adminBtn = secondaryButton("Admin Access");
         adminBtn.addActionListener(e -> showScreen(SCREEN_ADMIN_LOGIN));
 
-        gbc.insets = new Insets(12, 20, 4, 20);
+        gbc.insets = new Insets(20, 20, 8, 20);
         gbc.gridy = 0;
         card.add(title, gbc);
 
-        gbc.insets = new Insets(4, 20, 6, 20);
+        gbc.insets = new Insets(8, 20, 4, 20);
         gbc.gridy = 1;
         card.add(subtitle, gbc);
 
+        gbc.insets = new Insets(4, 20, 24, 20);
         gbc.gridy = 2;
         card.add(highlight, gbc);
 
-        gbc.insets = new Insets(28, 20, 12, 20);
+        gbc.insets = new Insets(8, 20, 8, 20);
         gbc.gridy = 3;
         gbc.gridwidth = 1;
         card.add(registerBtn, gbc);
 
-        gbc.insets = new Insets(28, 20, 12, 20);
+        gbc.insets = new Insets(8, 20, 8, 20);
         gbc.gridx = 1;
         gbc.gridy = 3;
         card.add(loginBtn, gbc);
 
-        if (isLocalhost) {
-            gbc.insets = new Insets(10, 20, 16, 20);
-            gbc.gridx = 0;
-            gbc.gridy = 4;
-            gbc.gridwidth = 2;
-            card.add(adminBtn, gbc);
-        }
+        // Admin button - compressed spacing
+        gbc.insets = new Insets(8, 20, 12, 20);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        card.add(adminBtn, gbc);
 
         content.add(card);
         return content;
@@ -196,17 +199,16 @@ public class BankSwingUI extends JFrame {
         JPanel form = new JPanel(new GridBagLayout());
         form.setOpaque(false);
 
-        JPanel card = makeCardPanel(new GridBagLayout(), 700, 560);
+        JPanel card = makeCardPanel(new GridBagLayout(), 700, 600);
         GridBagConstraints gbc = baseGbc();
 
         JLabel title = sectionTitle("Create New Client Account");
         gbc.gridy = 0;
         gbc.gridwidth = 2;
-        gbc.insets = new Insets(12, 10, 18, 10);
+        gbc.insets = new Insets(0, 0, 16, 0);
         card.add(title, gbc);
 
         gbc.gridwidth = 1;
-        gbc.insets = new Insets(8, 10, 8, 10);
 
         regNameField = new JTextField();
         regAgeField = new JTextField();
@@ -841,39 +843,52 @@ public class BankSwingUI extends JFrame {
 
     private void addFormRow(JPanel panel, GridBagConstraints gbc, int row, String labelText, JComponent input) {
         JLabel label = new JLabel(labelText);
-        label.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        label.setForeground(PRIMARY_DARK);
+        label.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        label.setForeground(PRIMARY);
 
         input.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        input.setPreferredSize(new Dimension(320, 34));
+        input.setPreferredSize(new Dimension(320, 38));
+        input.setForeground(TEXT_DARK);
 
-        if (input instanceof JTextField textField) {
+        if (input instanceof JTextField || input instanceof JPasswordField) {
+            JTextField textField = (JTextField) input;
+            textField.setBackground(SOFT_BG);
             textField.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(183, 196, 204)),
-                BorderFactory.createEmptyBorder(5, 8, 5, 8)
+                BorderFactory.createLineBorder(BORDER_COLOR, 1),
+                BorderFactory.createEmptyBorder(8, 12, 8, 12)
             ));
+            textField.setCaretColor(PRIMARY);
         }
 
         gbc.gridy = row;
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.weightx = 0;
+        gbc.insets = new Insets(6, 0, 6, 8);
         panel.add(label, gbc);
 
         gbc.gridx = 1;
         gbc.weightx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(6, 0, 6, 0);
         panel.add(input, gbc);
     }
 
     private JPanel makeCardPanel(java.awt.LayoutManager layout, int prefWidth, int prefHeight) {
-        JPanel card = new JPanel(layout);
+        JPanel card = new JPanel(layout) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                // Draw subtle border
+                g2.setColor(BORDER_COLOR);
+                g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 12, 12);
+            }
+        };
         card.setOpaque(true);
         card.setBackground(CARD_BG);
-        card.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(210, 222, 228), 1),
-            new EmptyBorder(14, 14, 14, 14)
-        ));
+        card.setBorder(new EmptyBorder(18, 18, 18, 18));
 
         if (prefWidth > 0 && prefHeight > 0) {
             card.setPreferredSize(new Dimension(prefWidth, prefHeight));
@@ -884,38 +899,83 @@ public class BankSwingUI extends JFrame {
 
     private JLabel sectionTitle(String title) {
         JLabel label = new JLabel(title, SwingConstants.CENTER);
-        label.setFont(new Font("Segoe UI", Font.BOLD, 30));
-        label.setForeground(TEXT_DARK);
+        label.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        label.setForeground(PRIMARY);
         return label;
     }
 
     private JButton primaryButton(String text) {
-        JButton button = new JButton(text);
+        JButton button = new JButton(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                if (getModel().isPressed()) {
+                    g2.setColor(PRIMARY_DARK);
+                } else if (getModel().isArmed()) {
+                    g2.setColor(new Color(37, 117, 230));
+                } else {
+                    g2.setColor(PRIMARY);
+                }
+                g2.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 8, 8);
+                super.paintComponent(g);
+            }
+        };
         button.setFocusPainted(false);
-        button.setBackground(PRIMARY);
+        button.setContentAreaFilled(false);
         button.setForeground(Color.WHITE);
         button.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        button.setBorder(new EmptyBorder(10, 16, 10, 16));
+        button.setBorder(new EmptyBorder(12, 20, 12, 20));
         return button;
     }
 
     private JButton secondaryButton(String text) {
-        JButton button = new JButton(text);
+        JButton button = new JButton(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                if (getModel().isPressed()) {
+                    g2.setColor(new Color(255, 152, 0));
+                } else if (getModel().isArmed()) {
+                    g2.setColor(new Color(255, 193, 7));
+                } else {
+                    g2.setColor(ACCENT);
+                }
+                g2.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 8, 8);
+                super.paintComponent(g);
+            }
+        };
         button.setFocusPainted(false);
-        button.setBackground(ACCENT);
-        button.setForeground(new Color(48, 36, 8));
+        button.setContentAreaFilled(false);
+        button.setForeground(Color.WHITE);
         button.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        button.setBorder(new EmptyBorder(10, 16, 10, 16));
+        button.setBorder(new EmptyBorder(12, 20, 12, 20));
         return button;
     }
 
     private JButton textButton(String text) {
-        JButton button = new JButton(text);
+        JButton button = new JButton(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                if (getModel().isPressed()) {
+                    g2.setColor(new Color(230, 235, 245));
+                } else if (getModel().isArmed()) {
+                    g2.setColor(new Color(240, 245, 250));
+                } else {
+                    g2.setColor(SOFT_BG);
+                }
+                g2.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 6, 6);
+                super.paintComponent(g);
+            }
+        };
         button.setFocusPainted(false);
-        button.setBackground(SOFT_BG);
+        button.setContentAreaFilled(false);
         button.setForeground(PRIMARY_DARK);
         button.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        button.setBorder(new EmptyBorder(8, 12, 8, 12));
+        button.setBorder(new EmptyBorder(10, 14, 10, 14));
         return button;
     }
 
