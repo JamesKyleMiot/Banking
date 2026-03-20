@@ -176,11 +176,13 @@ public class BankSwingUI extends JFrame {
         gbc.gridy = 3;
         card.add(loginBtn, gbc);
 
-        gbc.insets = new Insets(10, 20, 16, 20);
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 2;
-        card.add(adminBtn, gbc);
+        if (isLocalhost) {
+            gbc.insets = new Insets(10, 20, 16, 20);
+            gbc.gridx = 0;
+            gbc.gridy = 4;
+            gbc.gridwidth = 2;
+            card.add(adminBtn, gbc);
+        }
 
         content.add(card);
         return content;
