@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 public class BankSystem {
     private final List<Bank> allAccounts;
     private final InputValidator validator;
@@ -53,42 +54,6 @@ public class BankSystem {
         databaseManager.updateAccountFinancials(account);
         databaseManager.logTransaction(account.getAccountId(), account.getAccountUsername(), "DEPOSIT", amount, "Deposited to checking account", account.getBalance(), account.getSavingsBalance());
     }
-    
-    private void accountMenu(Bank account) {
-        boolean running = true;
-        
-        while (running) {
-            System.out.println("\n--- Bank Menu ---");
-            System.out.println("1. Check Balance");
-            System.out.println("2. Deposit Money");
-            System.out.println("3. Withdraw Money");
-            System.out.println("4. Loan");
-            System.out.println("5. View Loan Status");
-            System.out.println("6. Transfer to Savings");
-            System.out.println("7. Withdraw from Savings");
-            System.out.println("8. View Savings Balance");
-            System.out.println("9. Logout");
-            System.out.print("Choose an option (1-9): ");
-            
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-            
-            switch (choice) {
-                case 1:
-                    account.checkBalance();
-                    break;
-                    
-                case 2:
-                    System.out.print("Enter deposit amount: ");
-                    double depositAmount = scanner.nextDouble();
-                    scanner.nextLine();
-                    account.deposit(depositAmount);
-                    break;
-                    
-                case 3:
-                    System.out.print("Enter withdrawal amount: ");
-                    double withdrawAmount = scanner.nextDouble();
-                    scanner.nextLine();
 
     public void withdraw(Bank account, double amount) {
         account.withdraw(amount);
@@ -96,91 +61,10 @@ public class BankSystem {
         databaseManager.logTransaction(account.getAccountId(), account.getAccountUsername(), "WITHDRAW", amount, "Withdrew from checking account", account.getBalance(), account.getSavingsBalance());
     }
 
-                    account.withdraw(withdrawAmount);
-                    break;
-                    
-                case 4:
-                    if (account.getBalance() <= 0) {
-                        System.out.println("\n");
-                        System.out.println("   LOAN REQUEST DENIED");
-                        System.out.println("");
-                        System.out.println("You need to have a balance in your");
-                        System.out.println("account before applying for a loan.");
-                        System.out.println("\n Please deposit money first!");
-                        System.out.println("");
-                        
-                        System.out.print("\nWould you like to deposit now? (yes/no): ");
-                        String depositChoice = scanner.nextLine().trim().toLowerCase();
-                        
-                        if (depositChoice.equals("yes") || depositChoice.equals("y")) {
-                            System.out.print("Enter deposit amount: ");
-                            double depositAmount2 = scanner.nextDouble();
-                            scanner.nextLine();
-                            account.deposit(depositAmount2);
-                            
-                            if (account.getBalance() > 0) {
-                                System.out.println("\n You can now apply for a loan!");
-                                System.out.print("Enter loan amount: ");
-                                double loanAmount = scanner.nextDouble();
-                                scanner.nextLine();
-                                account.requestLoan(loanAmount);
-                            }
-                        }
-                    } else {
-                        if (account.hasActiveLoan()) {
-                            System.out.println("The System Dectected you have an Existing Outstanding Loan.");
-                            System.out.println("1. Loan \n2.Pay existing loan.");
-                            int input = scanner.nextInt();
-                                if (input == 1 && account.hasActiveLoan()) {
-                                    System.out.println("You have an outstanding loan. You must pay it first before using the service again.");
-                                } else if (input == 1 && !account.hasActiveLoan()) {
-                                    System.out.print("Enter loan amount: ");
-                                    double loanAmount = scanner.nextDouble();
-                                    scanner.nextLine();
-                                    account.requestLoan(loanAmount);
-                                } else if (input == 2) {
-                                    account.payloan();
-                                }
-                        } else {
-                            System.out.print("Enter loan amount: ");
-                            double loanAmount = scanner.nextDouble();
-                            scanner.nextLine();
-                            account.requestLoan(loanAmount);
-                        }
-                    }
-                    break;
-                    
-                case 5:
-                    account.viewLoanStatus();
-                    break;
-                    
-                case 6:
-                    System.out.print("Enter amount to transfer to savings: ");
-                    double transferAmount = scanner.nextDouble();
-                    scanner.nextLine();
-                    account.transferToSavings(transferAmount);
-                    break;
-                    
-                case 7:
-                    System.out.print("Enter amount to withdraw from savings: ");
-                    double withdrawSavingsAmount = scanner.nextDouble();
-                    scanner.nextLine();
-                    account.withdrawFromSavings(withdrawSavingsAmount);
-                    break;
-                    
-                case 8:
-                    account.viewSavingsBalance();
-                    break;
-                    
-                case 9:
-                    System.out.println("Logging out... Thank you for banking with us!");
-                    running = false;
-                    break;
-                    
-                default:
-                    System.out.println("Invalid choice! Please select 1-9.");
-            }
-        }
+    public void transferToSavings(Bank account, double amount) {
+        account.transferToSavings(amount);
+        databaseManager.updateAccountFinancials(account);
+        databaseManager.logTransaction(account.getAccountId(), account.getAccountUsername(), "TRANSFER_TO_SAVINGS", amount, "Transferred to savings account", account.getBalance(), account.getSavingsBalance());
     }
 
     public void withdrawFromSavings(Bank account, double amount) {
