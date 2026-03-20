@@ -149,7 +149,7 @@ public class BankSwingUI extends JFrame {
         JButton registerBtn = primaryButton("Create Account");
         registerBtn.addActionListener(e -> showScreen(SCREEN_REGISTER));
 
-        JButton loginBtn = primaryButton("Client Login");
+        JButton loginBtn = primaryButton("Log In Account");
         loginBtn.addActionListener(e -> showScreen(SCREEN_LOGIN));
 
         JButton adminBtn = secondaryButton("Admin Access");
