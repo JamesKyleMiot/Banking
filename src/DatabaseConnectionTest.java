@@ -9,7 +9,7 @@ public class DatabaseConnectionTest {
             DatabaseConnection.ensureMySqlDriverLoaded();
             DatabaseManager manager = new DatabaseManager();
 
-            try (Connection conn = DatabaseConnection.getJamesKylebankConnection()) {
+            try (Connection conn = DatabaseConnection.getLawbankConnection()) {
                 boolean pingOk;
                 try (PreparedStatement stmt = conn.prepareStatement("SELECT 1");
                      ResultSet rs = stmt.executeQuery()) {

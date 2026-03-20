@@ -6,18 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * MySQL Connector Utility - Simplifies database operations for jameskylebank.
+ * MySQL Connector Utility - Simplifies database operations for lawbank.
  * Provides easy-to-use methods for connecting and querying the MySQL database.
  */
 public class MySQLConnectorUtil {
 
     // Database name constant - lowercase as required
-    private static final String DATABASE_NAME = "jameskylebank";
+    private static final String DATABASE_NAME = "lawbank";
 
     /**
      * Get the database name (lowercase).
      *
-     * @return database name: "jameskylebank"
+     * @return database name: "lawbank"
      */
     public static String getDatabaseName() {
         return DATABASE_NAME;
@@ -69,24 +69,28 @@ public class MySQLConnectorUtil {
     }
 
     /**
-     * Get a connection to the jameskylebank database.
+     * Get a connection to the lawbank database.
      *
      * @return active MySQL connection
      * @throws SQLException if connection fails
      */
     public static Connection connect() throws SQLException {
-        return DatabaseConnection.getJamesKylebankConnection();
+        return DatabaseConnection.getLawbankConnection();
     }
 
     /**
-     * Connect to jameskylebank database explicitly by name.
-     * This function makes it clear you are connecting to "jameskylebank" (lowercase).
+     * Connect to lawbank database explicitly by name.
+     * This function makes it clear you are connecting to "lawbank" (lowercase).
      *
-     * @return active MySQL connection to jameskylebank
+     * @return active MySQL connection to lawbank
      * @throws SQLException if connection fails
      */
+    public static Connection connectToLawbank() throws SQLException {
+        return DatabaseConnection.getConnectionForDatabase("lawbank");
+    }
+
     public static Connection connectToJameskylebank() throws SQLException {
-        return DatabaseConnection.getConnectionForDatabase("jameskylebank");
+        return connectToLawbank();
     }
 
     /**
@@ -162,7 +166,7 @@ public class MySQLConnectorUtil {
     }
 
     /**
-     * Test the connection to jameskylebank database.
+        * Test the connection to lawbank database.
      *
      * @return true if connection and ping are successful
      */

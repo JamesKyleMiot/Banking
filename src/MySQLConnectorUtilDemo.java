@@ -8,7 +8,7 @@ public class MySQLConnectorUtilDemo {
 
     public static void main(String[] args) {
         System.out.println("╔════════════════════════════════════════════════════════════╗");
-        System.out.println("║   MySQL Connector Utility Demo for JamesKylebank          ║");
+        System.out.println("║   MySQL Connector Utility Demo for Lawbank                ║");
         System.out.println("╚════════════════════════════════════════════════════════════╝\n");
 
         // 1. Check if connector is ready

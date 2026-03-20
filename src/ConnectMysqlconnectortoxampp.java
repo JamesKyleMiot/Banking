@@ -5,7 +5,7 @@ import java.sql.SQLException;
 public final class ConnectMysqlconnectortoxampp {
 	private static final String HOST = "localhost";
 	private static final String PORT = "3306";
-	private static final String DATABASE = "jameskylebank";
+	private static final String DATABASE = "lawbank";
 	private static final String USERNAME = "root";
 	private static final String PASSWORD = "";
 

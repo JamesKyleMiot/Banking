@@ -1,12 +1,12 @@
 /**
- * Quick test for jameskylebank database functions (lowercase).
+ * Quick test for lawbank database functions (lowercase).
  */
 import java.sql.SQLException;
 
 public class JameskylbankDatabaseTest {
     public static void main(String[] args) {
         System.out.println("╔═══════════════════════════════════════════════════════╗");
-        System.out.println("║   Testing jameskylebank (lowercase) Database Function ║");
+        System.out.println("║   Testing lawbank (lowercase) Database Function      ║");
         System.out.println("╚═══════════════════════════════════════════════════════╝\n");
 
         // Test 1: Get database name
@@ -16,9 +16,9 @@ public class JameskylbankDatabaseTest {
         System.out.println("   Is lowercase: " + dbName.equals(dbName.toLowerCase()));
         System.out.println();
 
-        // Test 2: Connect to jameskylebank
-        System.out.println("2. CONNECT TO JAMESKYLEBANK:");
-        try (var conn = MySQLConnectorUtil.connectToJameskylebank()) {
+        // Test 2: Connect to lawbank
+        System.out.println("2. CONNECT TO LAWBANK:");
+        try (var conn = MySQLConnectorUtil.connectToLawbank()) {
             System.out.println("   Connected to: " + conn.getCatalog());
             System.out.println("   Status: ✓ SUCCESS");
         } catch (SQLException | IllegalStateException ex) {
@@ -27,8 +27,8 @@ public class JameskylbankDatabaseTest {
         System.out.println();
 
         // Test 3: Connect using generic method
-        System.out.println("3. CONNECT TO DATABASE BY NAME 'jameskylebank':");
-        try (var conn = MySQLConnectorUtil.connectToDatabase("jameskylebank")) {
+        System.out.println("3. CONNECT TO DATABASE BY NAME 'lawbank':");
+        try (var conn = MySQLConnectorUtil.connectToDatabase("lawbank")) {
             System.out.println("   Connected to: " + conn.getCatalog());
             System.out.println("   Status: ✓ SUCCESS");
         } catch (SQLException | IllegalStateException ex) {
@@ -41,7 +41,7 @@ public class JameskylbankDatabaseTest {
         System.out.println(MySQLConnectorUtil.getConnectionStatus());
 
         System.out.println("╔═══════════════════════════════════════════════════════╗");
-        System.out.println("║   All jameskylebank functions working correctly!     ║");
+        System.out.println("║   All lawbank functions working correctly!           ║");
         System.out.println("╚═══════════════════════════════════════════════════════╝");
     }
 }

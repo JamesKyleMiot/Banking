@@ -8,8 +8,8 @@ import java.sql.ResultSet;
 public final class DatabaseConnection {
     private static final String DB_HOST = resolveString("bank.db.host", "BANK_DB_HOST", "localhost");
     private static final int DB_PORT = resolvePort("bank.db.port", "BANK_DB_PORT", 3306);
-    // You can change this in NetBeans VM options using: -Dbank.db.name=jameskylebank
-    private static final String DB_NAME = resolveString("bank.db.name", "BANK_DB_NAME", "jameskylebank");
+    // You can change this in NetBeans VM options using: -Dbank.db.name=lawbank
+    private static final String DB_NAME = resolveString("bank.db.name", "BANK_DB_NAME", "lawbank");
     private static final String DB_USER = resolveString("bank.db.user", "BANK_DB_USER", "root");
     private static final String DB_PASSWORD = resolveString("bank.db.password", "BANK_DB_PASSWORD", "");
     private static final String SERVER_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/?useSSL=false&serverTimezone=UTC";
@@ -23,8 +23,12 @@ public final class DatabaseConnection {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
 
+    public static Connection getLawbankConnection() throws SQLException {
+        return getConnectionForDatabase("lawbank");
+    }
+
     public static Connection getJamesKylebankConnection() throws SQLException {
-        return getConnectionForDatabase("jameskylebank");
+        return getLawbankConnection();
     }
 
     public static Connection getConnectionForDatabase(String databaseName) throws SQLException {
@@ -137,7 +141,7 @@ public final class DatabaseConnection {
     }
 
     public static int getTableAccountCount() {
-        try (Connection conn = getJamesKylebankConnection();
+        try (Connection conn = getLawbankConnection();
              PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM accounts");
              ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {
@@ -150,7 +154,7 @@ public final class DatabaseConnection {
     }
 
     public static int getTableLoginLogCount() {
-        try (Connection conn = getJamesKylebankConnection();
+        try (Connection conn = getLawbankConnection();
              PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM login_logs");
              ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {
