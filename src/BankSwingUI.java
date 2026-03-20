@@ -146,9 +146,8 @@ public class BankSwingUI extends JFrame {
         highlight.setFont(new Font("Segoe UI", Font.BOLD, 18));
         highlight.setForeground(ACCENT.darker());
 
-        JLabel subtitle2 = new JLabel("Client accounts are created by administrators", SwingConstants.CENTER);
-        subtitle2.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        subtitle2.setForeground(PRIMARY_DARK);
+        JButton registerBtn = primaryButton("Create Account");
+        registerBtn.addActionListener(e -> showScreen(SCREEN_REGISTER));
 
         JButton loginBtn = primaryButton("Client Login");
         loginBtn.addActionListener(e -> showScreen(SCREEN_LOGIN));
@@ -167,16 +166,20 @@ public class BankSwingUI extends JFrame {
         gbc.gridy = 2;
         card.add(highlight, gbc);
 
-        gbc.insets = new Insets(8, 20, 12, 20);
+        gbc.insets = new Insets(28, 20, 12, 20);
         gbc.gridy = 3;
-        card.add(subtitle2, gbc);
+        gbc.gridwidth = 1;
+        card.add(registerBtn, gbc);
 
-        gbc.insets = new Insets(28, 40, 12, 40);
-        gbc.gridy = 4;
+        gbc.insets = new Insets(28, 20, 12, 20);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
         card.add(loginBtn, gbc);
 
-        gbc.insets = new Insets(10, 40, 16, 40);
-        gbc.gridy = 5;
+        gbc.insets = new Insets(10, 20, 16, 20);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
         card.add(adminBtn, gbc);
 
         content.add(card);
@@ -187,10 +190,10 @@ public class BankSwingUI extends JFrame {
         JPanel form = new JPanel(new GridBagLayout());
         form.setOpaque(false);
 
-        JPanel card = makeCardPanel(new GridBagLayout(), 700, 530);
+        JPanel card = makeCardPanel(new GridBagLayout(), 700, 560);
         GridBagConstraints gbc = baseGbc();
 
-        JLabel title = sectionTitle("Register Client Account");
+        JLabel title = sectionTitle("Create New Client Account");
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         gbc.insets = new Insets(12, 10, 18, 10);
