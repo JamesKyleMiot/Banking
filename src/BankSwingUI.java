@@ -55,6 +55,7 @@ public class BankSwingUI extends JFrame {
     private final JPanel cards;
 
     private Bank currentAccount;
+    private final boolean isLocalhost;
     private static final String ACTIVE_DB = DatabaseConnection.getDatabaseName();
     private static final String ADMIN_LOCALHOST_URL =
         "http://localhost/phpmyadmin/index.php?route=/database/structure&db=" + ACTIVE_DB;
@@ -89,6 +90,7 @@ public class BankSwingUI extends JFrame {
         this.bankSystem = bankSystem;
         this.validator = new InputValidator();
         this.moneyFormat = new DecimalFormat("#,##0.00");
+        this.isLocalhost = detectLocalhost();
 
         setTitle("CAGUIOA BANK - Smart Banking Desk");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -112,7 +114,23 @@ public class BankSwingUI extends JFrame {
         root.add(cards, BorderLayout.CENTER);
         setContentPane(root);
 
-        showScreen(SCREEN_WELCOME);
+        if (isLocalhost) {
+            showScreen(SCREEN_ADMIN_LOGIN);
+        } else {
+            showScreen(SCREEN_WELCOME);
+        }
+    }
+
+    private boolean detectLocalhost() {
+        try {
+            String hostname = java.net.InetAddress.getLocalHost().getHostName();
+            String hostaddr = java.net.InetAddress.getLocalHost().getHostAddress();
+            return hostname.equalsIgnoreCase("localhost") || 
+                   hostaddr.equals("127.0.0.1") || 
+                   hostname.contains("local");
+        } catch (java.net.UnknownHostException | SecurityException ex) {
+            return false;
+        }
     }
 
     private JPanel buildWelcomeScreen() {
@@ -316,7 +334,16 @@ public class BankSwingUI extends JFrame {
         loginBtn.addActionListener(e -> handleAdminLogin());
 
         JButton backBtn = textButton("Back");
-        backBtn.addActionListener(e -> showScreen(SCREEN_WELCOME));
+        backBtn.addActionListener(e -> {
+            adminUsernameField.setText("");
+            adminPasswordField.setText("");
+            if (isLocalhost) {
+                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                System.exit(0);
+            } else {
+                showScreen(SCREEN_WELCOME);
+            }
+        });
 
         JPanel actions = new JPanel(new GridLayout(1, 2, 12, 0));
         actions.setOpaque(false);
@@ -441,12 +468,18 @@ public class BankSwingUI extends JFrame {
         wrapper.setBorder(new EmptyBorder(24, 24, 24, 24));
 
         JPanel header = makeCardPanel(new BorderLayout(), 0, 88);
-        JLabel title = new JLabel("Admin Dashboard", SwingConstants.LEFT);
+        JLabel title = new JLabel("Registered Accounts & Login Management", SwingConstants.LEFT);
         title.setForeground(TEXT_DARK);
         title.setFont(new Font("Segoe UI", Font.BOLD, 26));
 
-        JButton logoutBtn = textButton("Logout");
-        logoutBtn.addActionListener(e -> showScreen(SCREEN_WELCOME));
+        JButton logoutBtn = textButton(isLocalhost ? "Exit Admin" : "Logout");
+        logoutBtn.addActionListener(e -> {
+            if (isLocalhost) {
+                System.exit(0);
+            } else {
+                showScreen(SCREEN_WELCOME);
+            }
+        });
 
         header.add(title, BorderLayout.WEST);
         header.add(logoutBtn, BorderLayout.EAST);
