@@ -52,6 +52,42 @@ DELIMITER ;
 CALL initialize_lawbank_schema();
 
 -- ============================================================================
+-- TRANSACTION LOGGING STORED PROCEDURE
+-- ============================================================================
+
+DROP PROCEDURE IF EXISTS log_transaction;
+DELIMITER $$
+CREATE PROCEDURE log_transaction(
+    IN p_account_id INT,
+    IN p_username VARCHAR(80),
+    IN p_transaction_type VARCHAR(50),
+    IN p_amount DOUBLE,
+    IN p_description VARCHAR(255),
+    IN p_checking_balance_after DOUBLE,
+    IN p_savings_balance_after DOUBLE
+)
+BEGIN
+    INSERT INTO transactions (
+        account_id, 
+        username, 
+        transaction_type, 
+        amount, 
+        description, 
+        checking_balance_after, 
+        savings_balance_after
+    ) VALUES (
+        p_account_id,
+        p_username,
+        p_transaction_type,
+        p_amount,
+        p_description,
+        p_checking_balance_after,
+        p_savings_balance_after
+    );
+END$$
+DELIMITER ;
+
+-- ============================================================================
 -- TRANSACTION TYPES DOCUMENTATION
 -- ============================================================================
 -- The transactions table tracks all financial operations:
@@ -74,29 +110,27 @@ CALL initialize_lawbank_schema();
 -- - savings_balance_after: Savings account balance after transaction
 -- - transaction_date: Timestamp of when transaction occurred
 --
--- Example transaction entries (uncomment to add sample data):
 -- ============================================================================
-
+-- HOW TO USE THE STORED PROCEDURE
+-- ============================================================================
+-- CALL log_transaction(account_id, username, transaction_type, amount, description, checking_balance_after, savings_balance_after);
+--
 -- Example: User deposits $500 to checking account
--- INSERT INTO transactions (account_id, username, transaction_type, amount, description, checking_balance_after, savings_balance_after) 
--- VALUES (1, 'testuser', 'DEPOSIT', 500, 'Deposited to checking account', 500, 0);
-
+-- CALL log_transaction(1, 'testuser', 'DEPOSIT', 500, 'Deposited to checking account', 500, 0);
+--
 -- Example: User withdraws $100 from checking account
--- INSERT INTO transactions (account_id, username, transaction_type, amount, description, checking_balance_after, savings_balance_after) 
--- VALUES (1, 'testuser', 'WITHDRAW', 100, 'Withdrew from checking account', 400, 0);
-
+-- CALL log_transaction(1, 'testuser', 'WITHDRAW', 100, 'Withdrew from checking account', 400, 0);
+--
 -- Example: User transfers $200 from checking to savings
--- INSERT INTO transactions (account_id, username, transaction_type, amount, description, checking_balance_after, savings_balance_after) 
--- VALUES (1, 'testuser', 'TRANSFER_TO_SAVINGS', 200, 'Transferred from checking to savings', 200, 200);
-
+-- CALL log_transaction(1, 'testuser', 'TRANSFER_TO_SAVINGS', 200, 'Transferred from checking to savings', 200, 200);
+--
 -- Example: User withdraws $50 from savings account
--- INSERT INTO transactions (account_id, username, transaction_type, amount, description, checking_balance_after, savings_balance_after) 
--- VALUES (1, 'testuser', 'WITHDRAW_FROM_SAVINGS', 50, 'Withdrew from savings account', 200, 150);
-
+-- CALL log_transaction(1, 'testuser', 'WITHDRAW_FROM_SAVINGS', 50, 'Withdrew from savings account', 200, 150);
+--
 -- Example: User requests a loan of $1000 (5% interest = $1050 total)
--- INSERT INTO transactions (account_id, username, transaction_type, amount, description, checking_balance_after, savings_balance_after) 
--- VALUES (1, 'testuser', 'REQUEST_LOAN', 1000, 'Loan requested - Total: 1050', 200, 150);
-
+-- CALL log_transaction(1, 'testuser', 'REQUEST_LOAN', 1000, 'Loan requested - Total: 1050', 200, 150);
+--
 -- Example: User pays loan in full
--- INSERT INTO transactions (account_id, username, transaction_type, amount, description, checking_balance_after, savings_balance_after) 
--- VALUES (1, 'testuser', 'PAY_LOAN', 1050, 'Loan paid in full', 200, 150);
+-- CALL log_transaction(1, 'testuser', 'PAY_LOAN', 1050, 'Loan paid in full', 200, 150);
+--
+-- ============================================================================
