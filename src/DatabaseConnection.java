@@ -12,8 +12,9 @@ public final class DatabaseConnection {
     private static final String DB_NAME = resolveString("bank.db.name", "BANK_DB_NAME", "lawbank");
     private static final String DB_USER = resolveString("bank.db.user", "BANK_DB_USER", "root");
     private static final String DB_PASSWORD = resolveString("bank.db.password", "BANK_DB_PASSWORD", "");
-    private static final String SERVER_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/?useSSL=false&serverTimezone=UTC";
-    private static final String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME + "?useSSL=false&serverTimezone=UTC";
+    private static final String URL_OPTIONS = "useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    private static final String SERVER_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/?" + URL_OPTIONS;
+    private static final String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME + "?" + URL_OPTIONS;
 
     private DatabaseConnection() {
     }
@@ -34,7 +35,7 @@ public final class DatabaseConnection {
     public static Connection getConnectionForDatabase(String databaseName) throws SQLException {
         String resolvedName = sanitizeDatabaseName(databaseName);
         ensureDatabaseExists(resolvedName);
-        String targetUrl = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + resolvedName + "?useSSL=false&serverTimezone=UTC";
+        String targetUrl = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + resolvedName + "?" + URL_OPTIONS;
         return DriverManager.getConnection(targetUrl, DB_USER, DB_PASSWORD);
     }
 
@@ -124,7 +125,9 @@ public final class DatabaseConnection {
         String safeName = sanitizeDatabaseName(databaseName);
         try (Connection conn = DriverManager.getConnection(SERVER_URL, DB_USER, DB_PASSWORD);
              Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS `" + safeName + "`");
+            stmt.executeUpdate(
+                "CREATE DATABASE IF NOT EXISTS `" + safeName + "` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
+            );
         }
     }
 
