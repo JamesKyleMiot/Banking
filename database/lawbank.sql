@@ -33,6 +33,19 @@ BEGIN
         notes VARCHAR(255),
         logged_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS transactions (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        account_id INT NOT NULL,
+        username VARCHAR(80) NOT NULL,
+        transaction_type VARCHAR(50) NOT NULL,
+        amount DOUBLE NOT NULL,
+        description VARCHAR(255),
+        checking_balance_after DOUBLE,
+        savings_balance_after DOUBLE,
+        transaction_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
+    );
 END$$
 DELIMITER ;
 

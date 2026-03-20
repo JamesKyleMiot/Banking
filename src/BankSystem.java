@@ -51,32 +51,39 @@ public class BankSystem {
     public void deposit(Bank account, double amount) {
         account.deposit(amount);
         databaseManager.updateAccountFinancials(account);
+        databaseManager.logTransaction(account.getAccountId(), account.getAccountUsername(), "DEPOSIT", amount, "Deposited to checking account", account.getBalance(), account.getSavingsBalance());
     }
 
     public void withdraw(Bank account, double amount) {
         account.withdraw(amount);
         databaseManager.updateAccountFinancials(account);
+        databaseManager.logTransaction(account.getAccountId(), account.getAccountUsername(), "WITHDRAW", amount, "Withdrew from checking account", account.getBalance(), account.getSavingsBalance());
     }
 
     public void transferToSavings(Bank account, double amount) {
         account.transferToSavings(amount);
         databaseManager.updateAccountFinancials(account);
+        databaseManager.logTransaction(account.getAccountId(), account.getAccountUsername(), "TRANSFER_TO_SAVINGS", amount, "Transferred from checking to savings", account.getBalance(), account.getSavingsBalance());
     }
 
     public void withdrawFromSavings(Bank account, double amount) {
         account.withdrawFromSavings(amount);
         databaseManager.updateAccountFinancials(account);
+        databaseManager.logTransaction(account.getAccountId(), account.getAccountUsername(), "WITHDRAW_FROM_SAVINGS", amount, "Withdrew from savings account", account.getBalance(), account.getSavingsBalance());
     }
 
     public double requestLoan(Bank account, double amount) {
         double totalLoan = account.requestLoan(amount);
         databaseManager.updateAccountFinancials(account);
+        databaseManager.logTransaction(account.getAccountId(), account.getAccountUsername(), "REQUEST_LOAN", amount, "Loan requested - Total: " + totalLoan, account.getBalance(), account.getSavingsBalance());
         return totalLoan;
     }
 
     public void payLoanInFull(Bank account) {
+        double loanPaid = account.getLoanAmount();
         account.payLoanInFull();
         databaseManager.updateAccountFinancials(account);
+        databaseManager.logTransaction(account.getAccountId(), account.getAccountUsername(), "PAY_LOAN", loanPaid, "Loan paid in full", account.getBalance(), account.getSavingsBalance());
     }
 
     public Bank loginAccount(String accountUsername, String pinText) {

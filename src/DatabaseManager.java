@@ -225,6 +225,26 @@ public class DatabaseManager {
         }
     }
 
+    public void logTransaction(int accountId, String username, String transactionType, double amount, String description, double checkingBalanceAfter, double savingsBalanceAfter) {
+        String sql = "INSERT INTO transactions (account_id, username, transaction_type, amount, description, checking_balance_after, savings_balance_after) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = openConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, accountId);
+            stmt.setString(2, username);
+            stmt.setString(3, transactionType);
+            stmt.setDouble(4, amount);
+            stmt.setString(5, description);
+            stmt.setDouble(6, checkingBalanceAfter);
+            stmt.setDouble(7, savingsBalanceAfter);
+
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new IllegalStateException("Cannot log transaction in MySQL. " + ex.getMessage(), ex);
+        }
+    }
+
     private void bindAccountFields(PreparedStatement stmt, Bank account) throws SQLException {
         stmt.setString(1, account.getAccountHolder());
         stmt.setInt(2, account.getAge());
