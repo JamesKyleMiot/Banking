@@ -159,18 +159,6 @@ public class BankSystem {
         return allAccounts.get(index);
     }
 
-    public Bank getAccountByUsername(String username) {
-        if (username == null || username.trim().isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be empty.");
-        }
-        String cleanUsername = username.trim();
-        Bank account = databaseManager.findAccountByUsername(cleanUsername);
-        if (account == null) {
-            throw new IllegalArgumentException("Account not found.");
-        }
-        return account;
-    }
-
     public void deleteAccountByIndex(int index) {
         if (index < 0 || index >= allAccounts.size()) {
             throw new IllegalArgumentException("Invalid account selection.");
