@@ -157,6 +157,9 @@ public class BankSwingUI extends JFrame {
         JButton loginBtn = primaryButton("Log In Account");
         loginBtn.addActionListener(e -> showScreen(SCREEN_LOGIN));
 
+        JButton loanStatusBtn = secondaryButton("Check Loan Status");
+        loanStatusBtn.addActionListener(e -> handleCheckLoanStatus());
+
         JButton adminBtn = secondaryButton("Admin Access");
         adminBtn.addActionListener(e -> showScreen(SCREEN_ADMIN_LOGIN));
 
@@ -182,10 +185,16 @@ public class BankSwingUI extends JFrame {
         gbc.gridy = 3;
         card.add(loginBtn, gbc);
 
+        gbc.insets = new Insets(8, 20, 8, 20);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 1;
+        card.add(loanStatusBtn, gbc);
+
         // Admin button - compressed spacing
         gbc.insets = new Insets(8, 20, 12, 20);
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.gridwidth = 2;
         card.add(adminBtn, gbc);
 
@@ -906,6 +915,45 @@ public class BankSwingUI extends JFrame {
         }
 
         showError("Invalid admin credentials.");
+    }
+
+    private void handleCheckLoanStatus() {
+        String username = JOptionPane.showInputDialog(this, "Enter your username:", "Check Loan Status", JOptionPane.QUESTION_MESSAGE);
+        if (username == null || username.trim().isEmpty()) {
+            return;
+        }
+
+        try {
+            Bank account = bankSystem.getAccountByUsername(username);
+            if (account == null) {
+                showError("Account not found.");
+                return;
+            }
+
+            String loanStatus;
+            if (account.hasActiveLoan()) {
+                loanStatus = "💳 LOAN STATUS\n\n" +
+                           "Username: " + account.getAccountUsername() + "\n" +
+                           "Account Holder: " + account.getAccountHolder() + "\n\n" +
+                           "✓ Active Loan: YES\n" +
+                           "Outstanding Amount: " + formatMoney(account.getLoanAmount()) + "\n" +
+                           "Interest Rate: " + String.format("%.1f%%", account.getLoanInterest() * 100) + "\n\n" +
+                           "Action: Please log in to your account to pay the loan in full.";
+            } else {
+                loanStatus = "💳 LOAN STATUS\n\n" +
+                           "Username: " + account.getAccountUsername() + "\n" +
+                           "Account Holder: " + account.getAccountHolder() + "\n\n" +
+                           "✓ Active Loan: NO\n" +
+                           "Outstanding Amount: " + formatMoney(0.0) + "\n" +
+                           "Interest Rate: " + String.format("%.1f%%", account.getLoanInterest() * 100) + "\n\n" +
+                           "Maximum Loan Available: " + formatMoney(account.getMaxLoanAmount()) + "\n\n" +
+                           "Action: You can request a new loan by logging into your account.";
+            }
+
+            JOptionPane.showMessageDialog(this, loanStatus, "Loan Status Report", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            showError("Error retrieving loan status: " + ex.getMessage());
+        }
     }
 
     private void handleRegister() {
