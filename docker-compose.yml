@@ -1,0 +1,20 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: lawbank-mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      MYSQL_DATABASE: lawbank
+    ports:
+      - "3306:3306"
+    volumes:
+        - lawbank-data:/var/lib/mysql
+        - ../database/lawbank.sql:/docker-entrypoint-initdb.d/lawbank.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+    lawbank-data:
