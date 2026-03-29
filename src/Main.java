@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class Main {
-    private static final String APP_NAME = "James Kyle Bank Management System";
+    private static final String APP_NAME = "CAGUIOA BANK";
     private static final String DB_ERROR_TITLE = "Database Connection Error";
     private static final String DB_ERROR_MSG = "Cannot connect to XAMPP MySQL.";
     
